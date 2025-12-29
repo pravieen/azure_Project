@@ -1,0 +1,9 @@
+{
+	"name": "dfAzureprojects",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e3185a73-3ac4-4d51-8148-0e043eb8e07f",
+		"tenantId": "c9d0081e-9435-49f1-ba34-c11dcbff1025"
+	}
+}
