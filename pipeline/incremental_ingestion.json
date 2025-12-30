@@ -31,7 +31,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *\nFROM @{pipeline().parameters.schema}.@{pipeline().parameters.schema}\nWHERE @{pipeline().parameters.cdc_col} > '@{activity('last_cdc').output.firstRow.cdc}'",
+							"value": "SELECT *\nFROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}\nWHERE @{pipeline().parameters.cdc_col} > '@{activity('last_cdc').output.firstRow.cdc}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -68,11 +68,11 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "bronze",
-							"file": "Users",
-							"folder": {
+							"file": {
 								"value": "@concat(pipeline().parameters.table, '_', variables('current'))",
 								"type": "Expression"
-							}
+							},
+							"folder": "User"
 						}
 					}
 				]
