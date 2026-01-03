@@ -11,6 +11,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -62,9 +68,9 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"continer": "bronze",
-							"folder": "User",
+							"folder": "Users",
 							"file": {
-								"value": "@concat(pipeline().parameters.table, '_', formatDateTime(utcNow(), 'yyyyMMdd'))",
+								"value": "@concat(pipeline().parameters.table, '_', variables('date'))",
 								"type": "Expression"
 							}
 						}
@@ -103,6 +109,23 @@
 							"folder": "cdc",
 							"file": "cdc"
 						}
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "date",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
 					}
 				}
 			}
