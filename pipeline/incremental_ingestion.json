@@ -5,6 +5,8 @@
 			{
 				"name": "AzureSqlToBronze",
 				"type": "Copy",
+				"state": "Active",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "last_cdc",
@@ -70,7 +72,7 @@
 							"continer": "bronze",
 							"folder": "Users",
 							"file": {
-								"value": "@concat(pipeline().parameters.table, '_', variables('date'))",
+								"value": "@concat(pipeline().parameters.table, '_', variables('date'),'.parquet')",
 								"type": "Expression"
 							}
 						}
@@ -147,7 +149,6 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase1",
 					"type": "LinkedServiceReference"
@@ -157,7 +158,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
+								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) \nFROM 'dbo.DimUser'",
 								"type": "Expression"
 							}
 						}
@@ -179,6 +180,9 @@
 		},
 		"variables": {
 			"date": {
+				"type": "String"
+			},
+			"validate": {
 				"type": "String"
 			}
 		},
