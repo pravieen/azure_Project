@@ -132,7 +132,7 @@
 				}
 			},
 			{
-				"name": "query_last_date",
+				"name": "Script1",
 				"type": "Script",
 				"dependsOn": [
 					{
@@ -151,7 +151,7 @@
 				},
 				"userProperties": [],
 				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
+					"referenceName": "AzureSqdb",
 					"type": "LinkedServiceReference"
 				},
 				"typeProperties": {
@@ -159,7 +159,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) \nFROM dbo.DimUser",
+								"value": "SELECT * FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
 								"type": "Expression"
 							}
 						}
