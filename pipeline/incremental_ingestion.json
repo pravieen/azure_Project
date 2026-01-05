@@ -149,6 +149,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase1",
 					"type": "LinkedServiceReference"
@@ -158,7 +159,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) \nFROM 'dbo.DimUser'",
+								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) \nFROM dbo.DimUser",
 								"type": "Expression"
 							}
 						}
