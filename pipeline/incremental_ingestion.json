@@ -132,7 +132,7 @@
 				}
 			},
 			{
-				"name": "Script1",
+				"name": "max_cdc",
 				"type": "Script",
 				"dependsOn": [
 					{
@@ -159,7 +159,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT * FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
+								"value": "SELECT MXA(pipeline().parameters.cdc_col) as max_cdc FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
 								"type": "Expression"
 							}
 						}
@@ -168,11 +168,11 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "update_last_cdc",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "max_cdc",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -189,6 +189,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "JsonSource",
+						"additionalColumns": {
+							"type": "Expression",
+							"value": "@activity('max_cdc').output.resultSets[0].rows[0].max_cdc"
+						},
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
@@ -198,6 +202,16 @@
 							"type": "JsonReadSettings"
 						}
 					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "FlattenHierarchy"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
@@ -205,18 +219,32 @@
 						"referenceName": "empty",
 						"type": "DatasetReference"
 					}
+				],
+				"outputs": [
+					{
+						"referenceName": "last_cdc",
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"folder": "cdc",
+							"file": "cdc"
+						}
+					}
 				]
 			}
 		],
 		"parameters": {
 			"schema": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dbo"
 			},
 			"table": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "DimUser"
 			},
 			"cdc_col": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "updated_at"
 			}
 		},
 		"variables": {
