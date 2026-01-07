@@ -109,7 +109,7 @@
 						"parameters": {
 							"container": "bronze",
 							"folder": "cdc",
-							"file": "cdc"
+							"file": "cdc.json"
 						}
 					}
 				}
@@ -159,7 +159,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "SELECT MXA(pipeline().parameters.cdc_col) as max_cdc FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
+								"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) as max_cdc FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
 								"type": "Expression"
 							}
 						}
@@ -189,10 +189,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "JsonSource",
-						"additionalColumns": {
-							"type": "Expression",
-							"value": "@activity('max_cdc').output.resultSets[0].rows[0].max_cdc"
-						},
+						"additionalColumns": [
+							{
+								"name": "cdc",
+								"value": {
+									"value": "@activity('max_cdc').output.resultSets[0].rows[0].max_cdc\n",
+									"type": "Expression"
+								}
+							}
+						],
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
@@ -217,7 +222,12 @@
 				"inputs": [
 					{
 						"referenceName": "empty",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"folder": "cdc",
+							"file": "empty.json"
+						}
 					}
 				],
 				"outputs": [
@@ -227,7 +237,7 @@
 						"parameters": {
 							"container": "bronze",
 							"folder": "cdc",
-							"file": "cdc"
+							"file": "cdc.json"
 						}
 					}
 				]
