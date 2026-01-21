@@ -1,0 +1,9 @@
+{
+	"name": "DF-AzureProjectASP",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "41a0cac6-7d25-420b-8efc-daf66113be55",
+		"tenantId": "82ecac40-0dd3-467d-8b5d-01d24e06ee23"
+	}
+}
