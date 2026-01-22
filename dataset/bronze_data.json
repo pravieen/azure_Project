@@ -1,6 +1,10 @@
 {
 	"name": "bronze_data",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage",
+			"type": "LinkedServiceReference"
+		},
 		"parameters": {
 			"continer": {
 				"type": "String"
