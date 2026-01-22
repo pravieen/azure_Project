@@ -1,10 +1,6 @@
 {
 	"name": "last_cdc",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"container": {
 				"type": "String"

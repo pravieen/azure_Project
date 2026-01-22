@@ -1,10 +1,6 @@
 {
 	"name": "empty",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorage",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"container": {
 				"type": "string"
