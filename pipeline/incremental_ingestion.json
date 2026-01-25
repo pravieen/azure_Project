@@ -136,7 +136,14 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [],
+							"userProperties": [
+								{
+									"name": "container"
+								},
+								{
+									"name": "file"
+								}
+							],
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "bronze_data",
@@ -153,7 +160,7 @@
 										}
 									}
 								},
-								"enableLogging": true,
+								"enableLogging": false,
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
