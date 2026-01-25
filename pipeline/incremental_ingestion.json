@@ -11,6 +11,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "current_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -62,9 +68,12 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"continer": "bronze",
-							"folder": "Users",
+							"folder": {
+								"value": "@{pipeline().parameters.table}",
+								"type": "Expression"
+							},
 							"file": {
-								"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  formatDateTime(utcNow(), 'yyyyMMdd_HHmmss')\n)\n",
+								"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  variables('date')\n)",
 								"type": "Expression"
 							}
 						}
@@ -149,13 +158,13 @@
 									"referenceName": "bronze_data",
 									"type": "DatasetReference",
 									"parameters": {
-										"continer": "beonze",
+										"continer": "bronze",
 										"folder": {
 											"value": "@{pipeline().parameters.table}",
 											"type": "Expression"
 										},
 										"file": {
-											"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  formatDateTime(utcNow(), 'yyyyMMdd_HHmmss')\n)\n",
+											"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  variables('date')\n)",
 											"type": "Expression"
 										}
 									}
@@ -275,6 +284,23 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "current_date",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "date",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -289,6 +315,11 @@
 			"cdc_col": {
 				"type": "string",
 				"defaultValue": "updated_at"
+			}
+		},
+		"variables": {
+			"date": {
+				"type": "String"
 			}
 		},
 		"annotations": []
