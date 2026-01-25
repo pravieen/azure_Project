@@ -13,7 +13,7 @@
 						]
 					},
 					{
-						"activity": "current_date",
+						"activity": "current",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -73,7 +73,7 @@
 								"type": "Expression"
 							},
 							"file": {
-								"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  variables('date')\n)",
+								"value": "@concat(pipeline().parameters.table, '_', variables('current'))",
 								"type": "Expression"
 							}
 						}
@@ -135,7 +135,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "delete_emp_file",
+							"name": "Deletetable",
 							"type": "Delete",
 							"dependsOn": [],
 							"policy": {
@@ -145,14 +145,7 @@
 								"secureOutput": false,
 								"secureInput": false
 							},
-							"userProperties": [
-								{
-									"name": "container"
-								},
-								{
-									"name": "file"
-								}
-							],
+							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "bronze_data",
@@ -160,11 +153,11 @@
 									"parameters": {
 										"continer": "bronze",
 										"folder": {
-											"value": "@{pipeline().parameters.table}",
+											"value": "@pipeline().parameters.table",
 											"type": "Expression"
 										},
 										"file": {
-											"value": "@concat(\n  pipeline().parameters.table,\n  '_',\n  variables('date')\n)",
+											"value": "@concat(pipeline().parameters.table, '_', variables('current'))",
 											"type": "Expression"
 										}
 									}
@@ -286,7 +279,7 @@
 				}
 			},
 			{
-				"name": "current_date",
+				"name": "current",
 				"type": "SetVariable",
 				"dependsOn": [],
 				"policy": {
@@ -295,7 +288,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "date",
+					"variableName": "current",
 					"value": {
 						"value": "@utcNow()",
 						"type": "Expression"
@@ -318,7 +311,7 @@
 			}
 		},
 		"variables": {
-			"date": {
+			"current": {
 				"type": "String"
 			}
 		},
