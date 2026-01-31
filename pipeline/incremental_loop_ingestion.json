@@ -208,7 +208,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "SELECT MAX(@{item().cdc_col}) as max_date \nFROM @{item().schema}.@{item().table}",
+														"value": "@concat(\n  'SELECT MAX(',\n  item().cdc_col,\n  ') AS max_date FROM ',\n  item().schema,\n  '.',\n  item().table\n)\n",
 														"type": "Expression"
 													}
 												}
