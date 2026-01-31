@@ -81,11 +81,11 @@
 									"parameters": {
 										"continer": "bronze",
 										"folder": {
-											"value": "@{item().table}\n",
+											"value": "@item().table\n",
 											"type": "Expression"
 										},
 										"file": {
-											"value": "@concat(item().table, '_', variables('current'))",
+											"value": "@concat(item().table,'_',variables('current'))",
 											"type": "Expression"
 										}
 									}
