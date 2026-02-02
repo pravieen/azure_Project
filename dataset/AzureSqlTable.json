@@ -1,8 +1,0 @@
-{
-	"name": "AzureSqlTable",
-	"properties": {
-		"annotations": [],
-		"type": "AzureSqlTable",
-		"schema": []
-	}
-}
